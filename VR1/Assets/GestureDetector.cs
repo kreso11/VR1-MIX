@@ -15,19 +15,15 @@ public struct Gesture
 
 public class GestureDetector : MonoBehaviour
 {
-    // How much accurate the recognize should be
+   
     [Header("Threshold value")]
     public float threshold = 0.1f;
 
-    // Add the component that refer to the skeleton hand ("OVRCustomHandPrefab_R" or "OVRCustomHandPrefab_L")
     [Header("Hand Skeleton")]
     public OVRSkeleton skeleton;
 
-    // List that will be populated after we save some gestures
     [Header("List of Gestures")]
     public List<Gesture> gestures;
-
-    // List of bones took from the OVRSkeleton
     private List<OVRBone> fingerbones = null;
 
     // Boolean for the debugMode duh!
@@ -73,15 +69,13 @@ public class GestureDetector : MonoBehaviour
 
     void Update()
     {
-        // if in debug mode and we press Space, we will save a gesture
+        
         if (debugMode && Input.GetKeyDown(KeyCode.Space))
         {
-            // Call the function for save the gesture
             Save();
         }
 
-        //if the initialization was successful
-        if (hasStarted.Equals(true))
+        if (hasStarted.Equals(true) && skeleton.IsInitialized)
         {
             // start to Recognize every gesture we make
             Gesture currentGesture = Recognize();
@@ -95,6 +89,8 @@ public class GestureDetector : MonoBehaviour
             {
                 // we change another boolean to avoid a loop of event
                 done = true;
+
+                Debug.Log("Reckon: " + currentGesture.name);
 
                 // after that i will invoke what put in the Event if is present
                 currentGesture.onRecognized?.Invoke();

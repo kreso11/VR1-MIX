@@ -11,19 +11,25 @@ public class ScoreScript : MonoBehaviour
     [SerializeField] TextMeshPro scoreshown;
 
     // Update is called once per frame
+
+    void Start(){
+        score = PlayerPrefs.GetInt("Player Score");
+    }
+
     void Update()
     {
+        PlayerPrefs.SetInt("Player Score", score);
         scoreshown.SetText("Score: " + score.ToString());
     }
 
     //called from vr logic
-    //prviate void changeScore(win){
-    //    if(win){
-    //        score++;
-    //    }
-    //    else{
-    //        score--;
-    //    }
-    //}
-    //
+    public void changeScore(bool win){
+        if(win){
+            score++;
+        }
+        else{
+            score--;
+        }
+    }
+    
 }
